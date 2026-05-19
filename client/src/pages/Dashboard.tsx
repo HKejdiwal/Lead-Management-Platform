@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../api/axios';
+import { useAuth } from '../contexts/AuthContext';
 import { Lead, LeadsResponse } from '../types/api';
 import { useDebounce } from '../hooks/useDebounce';
 import Spinner from '../components/Spinner';
@@ -27,8 +28,12 @@ function Dashboard() {
   const [newEmail, setNewEmail] = useState('');
   const [newSource, setNewSource] = useState<'Website' | 'Instagram' | 'Referral'>('Website');
   const [newStatus, setNewStatus] = useState<'New' | 'Contacted' | 'Qualified' | 'Lost'>('New');
-  const [saving, setSaving] = useState(false);  const debouncedSearch = useDebounce(search, 450);
+  const [saving, setSaving] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const debouncedSearch = useDebounce(search, 450);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
+  const { user } = useAuth();
 
   const query = useMemo(() => {
     const params = new URLSearchParams();
@@ -97,6 +102,27 @@ function Dashboard() {
       setError('Unable to create lead.');
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDeleteLead = async (id: string) => {
+    if (!window.confirm('Delete this lead permanently?')) return;
+    setDeletingId(id);
+    setError('');
+
+    try {
+      await api.delete(`/leads/${id}`);
+      setLeads((prev) => prev.filter((lead) => lead._id !== id));
+      setMeta((prev) => ({ ...prev, total: Math.max(prev.total - 1, 0) }));
+    } catch (err) {
+      const responseStatus = (err as any)?.response?.status;
+      if (responseStatus === 403) {
+        setError('Delete denied: admin access is required.');
+      } else {
+        setError('Unable to delete lead.');
+      }
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -205,21 +231,38 @@ function Dashboard() {
             ) : (
               <div className="space-y-3">
                 {leads.map((lead) => (
-                  <Link key={lead._id} to={`/leads/${lead._id}`} className="block rounded-3xl border border-slate-200 p-4 hover:border-sky-500">
-                    <div className="flex items-center justify-between gap-4">
+                  <div key={lead._id} className="rounded-3xl border border-slate-200 p-4 hover:border-sky-500">
+                    <div className="flex items-start justify-between gap-4">
                       <div>
                         <h2 className="font-semibold text-slate-900">{lead.name}</h2>
                         <p className="text-sm text-slate-600">{lead.email}</p>
+                        <p className="mt-2 text-xs text-slate-500">{new Date(lead.createdAt).toLocaleDateString()}</p>
+                        <p className="text-xs text-slate-500">{lead.source}</p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm text-slate-500">{new Date(lead.createdAt).toLocaleDateString()}</p>
-                        <p className="mt-1 text-xs text-slate-500">{lead.source}</p>
+                      <div className="flex flex-col gap-2 text-right">
+                        <button
+                          type="button"
+                          onClick={() => navigate(`/leads/${lead._id}`)}
+                          className="rounded-2xl bg-sky-600 px-4 py-2 text-white hover:bg-sky-700"
+                        >
+                          Edit
+                        </button>
+                        {user?.role === 'Admin' ? (
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteLead(lead._id)}
+                            disabled={deletingId === lead._id}
+                            className="rounded-2xl bg-rose-100 px-4 py-2 text-rose-700 hover:bg-rose-200 disabled:cursor-not-allowed disabled:opacity-50"
+                          >
+                            {deletingId === lead._id ? 'Deleting...' : 'Delete'}
+                          </button>
+                        ) : null}
                       </div>
                     </div>
                     <div className="mt-4 flex flex-wrap gap-2 text-xs">
                       <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">{lead.status}</span>
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             )}

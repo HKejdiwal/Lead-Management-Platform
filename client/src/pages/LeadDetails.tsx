@@ -1,12 +1,14 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../api/axios';
+import { useAuth } from '../contexts/AuthContext';
 import { Lead } from '../types/api';
 import Spinner from '../components/Spinner';
 
 function LeadDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [lead, setLead] = useState<Lead | null>(null);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -127,9 +129,11 @@ function LeadDetails() {
               <button type="submit" disabled={saving} className="rounded-2xl bg-sky-600 px-5 py-3 text-white hover:bg-sky-700 disabled:cursor-not-allowed disabled:bg-slate-400">
                 {saving ? 'Saving...' : 'Update Lead'}
               </button>
-              <button type="button" onClick={handleDelete} disabled={saving} className="rounded-2xl bg-rose-100 px-5 py-3 text-rose-700 hover:bg-rose-200 disabled:cursor-not-allowed disabled:opacity-50">
-                Delete Lead
-              </button>
+              {user?.role === 'Admin' ? (
+                <button type="button" onClick={handleDelete} disabled={saving} className="rounded-2xl bg-rose-100 px-5 py-3 text-rose-700 hover:bg-rose-200 disabled:cursor-not-allowed disabled:opacity-50">
+                  Delete Lead
+                </button>
+              ) : null}
             </div>
           </form>
         ) : (
