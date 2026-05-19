@@ -1,31 +1,64 @@
 # Smart Leads Dashboard
 
-A full-stack MERN internship assignment for lead management with JWT authentication, role-based access control, advanced filtering, pagination, and CSV export.
+A full-stack MERN lead management platform built with React, TypeScript, Tailwind CSS, Express, and MongoDB.
 
 ## Features
 
 - React + TypeScript frontend
-- TailwindCSS styling
-- Node.js + Express backend with TypeScript
+- Tailwind CSS styling with dark mode support
+- Express backend with TypeScript
 - MongoDB via Mongoose
 - JWT authentication with `Admin` and `Sales` roles
-- Lead CRUD with filtering, search, sort, and pagination
+- Lead CRUD operations with search, filter, sort, and pagination
+- Lead update and delete support
 - CSV export for filtered leads
-- Docker + Docker Compose setup
+- Docker + Docker Compose support for easy deployment
 
-## Setup
+## Prerequisites
 
-1. Copy `.env.example` to `.env`.
-2. Start the app with Docker Compose:
+- Node.js 20+ (for local development)
+- npm
+- MongoDB (if running without Docker)
+- Docker Desktop (if using Docker Compose)
+
+## Local Development
+
+1. Copy `.env.example` to `.env` in both `server/` and `client/` if needed.
+2. Install dependencies:
+   - `cd server && npm install`
+   - `cd client && npm install`
+3. Start MongoDB locally or connect to a MongoDB URI in `server/.env`.
+4. Run the backend:
+   ```bash
+cd server
+npm run dev
+```
+5. Run the frontend:
+   ```bash
+cd client
+npm run dev
+```
+
+### Local access URLs
+
+- Frontend: `http://localhost:5173`
+- Backend API: `http://localhost:5000`
+
+> Note: `localhost` only works on the same machine. If you want access from another device on your network, use the host machine IP and open the ports.
+
+## Docker Setup
+
+1. Copy `.env.example` to `.env` in the `server/` directory.
+2. Start the application with Docker Compose:
    ```bash
 docker compose up --build
 ```
-3. Server runs on `http://localhost:5000`
-4. Frontend runs on `http://localhost:5173`
+3. Open the frontend at:
+   - `http://localhost:5173`
+4. The backend API is available at:
+   - `http://localhost:5000`
 
-## API Documentation
-
-Endpoints are grouped under `/api/auth` and `/api/leads`.
+## API Endpoints
 
 ### Auth
 - `POST /api/auth/register`
@@ -39,11 +72,20 @@ Endpoints are grouped under `/api/auth` and `/api/leads`.
 - `DELETE /api/leads/:id`
 - `GET /api/leads/export`
 
-## Credentials
+## Environment Variables
 
-Use the registration flow to create Admin and Sales users.
+Create `server/.env` with at least:
+
+```env
+PORT=5000
+MONGO_URI=mongodb://mongo:27017/leads
+JWT_SECRET=your_jwt_secret_here
+```
+
+For local development, point `MONGO_URI` to your local MongoDB instance if Docker is not used.
 
 ## Notes
 
-- Use strong values in `.env` for `JWT_SECRET`.
-- Backend validation and centralized error handling are included.
+- Docker is optional. The project can run locally with `npm run dev` if the required environment is set up.
+- Docker makes it easier to run the app on another machine because the runtime and dependencies are packaged together.
+- If using Docker, make sure ports `5173`, `5000`, and `27017` are available.

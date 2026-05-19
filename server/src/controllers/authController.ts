@@ -16,7 +16,8 @@ export const registerUser = asyncHandler(async (req: AuthRequest, res: Response)
   const { name, email, password, role } = req.body;
   const existing = await User.findOne({ email });
   if (existing) {
-    return res.status(400).json({ message: 'Email already exists' });
+    res.status(400).json({ message: 'Email already exists' });
+    return;
   }
 
   const userCount = await User.countDocuments();
@@ -45,7 +46,8 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ message: 'Invalid email or password' });
+    res.status(401).json({ message: 'Invalid email or password' });
+    return;
   }
 
   res.json({

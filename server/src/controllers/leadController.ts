@@ -19,7 +19,7 @@ export const getLeads = asyncHandler(async (req: Request, res: Response) => {
     ];
   }
 
-  const sortOrder = sort === 'oldest' ? { createdAt: 1 } : { createdAt: -1 };
+  const sortOrder = sort === 'oldest' ? ({ createdAt: 1 } as const) : ({ createdAt: -1 } as const);
   const total = await Lead.countDocuments(filters);
   const leads = await Lead.find(filters).sort(sortOrder).skip(skip).limit(limit);
 
@@ -37,7 +37,8 @@ export const getLeads = asyncHandler(async (req: Request, res: Response) => {
 export const getLead = asyncHandler(async (req: Request, res: Response) => {
   const lead = await Lead.findById(req.params.id);
   if (!lead) {
-    return res.status(404).json({ message: 'Lead not found' });
+    res.status(404).json({ message: 'Lead not found' });
+    return;
   }
   res.json({ data: lead });
 });
@@ -51,7 +52,8 @@ export const createLead = asyncHandler(async (req: Request, res: Response) => {
 export const updateLead = asyncHandler(async (req: Request, res: Response) => {
   const updated = await Lead.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
   if (!updated) {
-    return res.status(404).json({ message: 'Lead not found' });
+    res.status(404).json({ message: 'Lead not found' });
+    return;
   }
   res.json({ data: updated });
 });
@@ -59,7 +61,8 @@ export const updateLead = asyncHandler(async (req: Request, res: Response) => {
 export const deleteLead = asyncHandler(async (req: Request, res: Response) => {
   const lead = await Lead.findById(req.params.id);
   if (!lead) {
-    return res.status(404).json({ message: 'Lead not found' });
+    res.status(404).json({ message: 'Lead not found' });
+    return;
   }
   await lead.deleteOne();
   res.json({ message: 'Lead deleted successfully' });
@@ -77,7 +80,7 @@ export const exportLeads = asyncHandler(async (req: Request, res: Response) => {
     ];
   }
 
-  const sortOrder = sort === 'oldest' ? { createdAt: 1 } : { createdAt: -1 };
+  const sortOrder = sort === 'oldest' ? ({ createdAt: 1 } as const) : ({ createdAt: -1 } as const);
   const leads = await Lead.find(filters).sort(sortOrder);
   const csv = createCsv(leads);
 
