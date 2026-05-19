@@ -74,42 +74,42 @@ function LeadDetails() {
 
   return (
     <div className="space-y-6">
-      <button onClick={() => navigate(-1)} className="rounded-2xl bg-slate-100 px-4 py-3 text-slate-700 hover:bg-slate-200">
+      <button onClick={() => navigate(-1)} className="rounded-2xl bg-slate-100 px-4 py-3 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
         Back
       </button>
-      <div className="rounded-3xl bg-white p-6 shadow-sm shadow-slate-200">
+      <div className="rounded-3xl bg-white p-6 shadow-sm shadow-slate-200 dark:bg-slate-900 dark:shadow-slate-950">
         {loading ? (
           <Spinner />
         ) : error ? (
-          <p className="text-rose-600">{error}</p>
+          <p className="text-rose-600 dark:text-rose-300">{error}</p>
         ) : lead ? (
           <form className="space-y-6" onSubmit={handleUpdate}>
-            <h1 className="text-2xl font-semibold text-slate-900">Edit Lead</h1>
+            <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Edit Lead</h1>
             <div className="grid gap-4 lg:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-slate-700">Name</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Name</label>
                 <input
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3"
+                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700">Email</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3"
+                  className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3"
                   required
                 />
               </div>
             </div>
             <div className="grid gap-4 lg:grid-cols-2">
               <div>
-                <label className="block text-sm font-medium text-slate-700">Status</label>
-                <select value={status} onChange={(e) => setStatus(e.target.value as any)} className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Status</label>
+                <select value={status} onChange={(e) => setStatus(e.target.value as any)} className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3">
                   <option value="New">New</option>
                   <option value="Contacted">Contacted</option>
                   <option value="Qualified">Qualified</option>
@@ -117,8 +117,8 @@ function LeadDetails() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-700">Source</label>
-                <select value={source} onChange={(e) => setSource(e.target.value as any)} className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Source</label>
+                <select value={source} onChange={(e) => setSource(e.target.value as any)} className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3">
                   <option value="Website">Website</option>
                   <option value="Instagram">Instagram</option>
                   <option value="Referral">Referral</option>
@@ -137,7 +137,7 @@ function LeadDetails() {
             </div>
           </form>
         ) : (
-          <p className="text-slate-600">Lead not found.</p>
+          <p className="text-slate-600 dark:text-slate-400">Lead not found.</p>
         )}
       </div>
     </div>

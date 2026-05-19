@@ -132,16 +132,16 @@ function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 rounded-3xl bg-white p-6 shadow-sm shadow-slate-200 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 rounded-3xl bg-white p-6 shadow-sm shadow-slate-200 dark:bg-slate-900 dark:shadow-slate-950 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">Leads</h1>
-          <p className="mt-1 text-sm text-slate-600">Manage leads with filters, search, sorting, and pagination.</p>
+          <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100">Leads</h1>
+          <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Manage leads with filters, search, sorting, and pagination.</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
           <button onClick={handleExport} className="rounded-2xl bg-sky-600 px-4 py-3 text-white hover:bg-sky-700">
             Export CSV
           </button>
-          <button onClick={handleScrollToCreate} className="rounded-2xl bg-slate-100 px-4 py-3 text-slate-700 hover:bg-slate-200">
+          <button onClick={handleScrollToCreate} className="rounded-2xl bg-slate-100 px-4 py-3 text-slate-700 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-200 dark:hover:bg-slate-700">
             New Lead
           </button>
         </div>
@@ -149,9 +149,9 @@ function Dashboard() {
 
       <section className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
         <div className="space-y-4">
-          <div className="flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-sm shadow-slate-200 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-3 rounded-3xl bg-white p-5 shadow-sm shadow-slate-200 dark:bg-slate-900 dark:shadow-slate-950 sm:flex-row sm:items-center sm:justify-between">
             <div className="grid gap-3 sm:grid-cols-3">
-              <select value={status} onChange={(e) => setStatus(e.target.value)} className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+              <select value={status} onChange={(e) => setStatus(e.target.value)} className="rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3">
                 {statusOptions.map((item) => (
                   <option key={item} value={item}>{item}</option>
                 ))}
@@ -169,8 +169,8 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="rounded-3xl bg-white p-5 shadow-sm shadow-slate-200">
-            <label className="block text-sm font-medium text-slate-700">
+          <div className="rounded-3xl bg-white p-5 shadow-sm shadow-slate-200 dark:bg-slate-900 dark:shadow-slate-950">
+            <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
               Search by name or email
               <input
                 value={search}
@@ -179,19 +179,19 @@ function Dashboard() {
                   setPage(1);
                 }}
                 placeholder="Search leads..."
-                className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 p-3"
+                className="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3"
               />
             </label>
           </div>
 
-          <div id="create-lead" className="rounded-3xl bg-white p-5 shadow-sm shadow-slate-200">
-            <h2 className="text-lg font-semibold text-slate-900">Create New Lead</h2>
+          <div id="create-lead" className="rounded-3xl bg-white p-5 shadow-sm shadow-slate-200 dark:bg-slate-900 dark:shadow-slate-950">
+            <h2 className="text-lg font-semibold text-slate-900 dark:text-slate-100">Create New Lead</h2>
             <form className="mt-4 space-y-4" onSubmit={handleCreateLead}>
               <input
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
                 placeholder="Lead name"
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3"
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3"
                 required
               />
               <input
@@ -199,17 +199,17 @@ function Dashboard() {
                 value={newEmail}
                 onChange={(e) => setNewEmail(e.target.value)}
                 placeholder="Lead email"
-                className="w-full rounded-2xl border border-slate-200 bg-slate-50 p-3"
+                className="w-full rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3"
                 required
               />
               <div className="grid gap-3 sm:grid-cols-2">
-                <select value={newStatus} onChange={(e) => setNewStatus(e.target.value as any)} className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                <select value={newStatus} onChange={(e) => setNewStatus(e.target.value as any)} className="rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3">
                   <option value="New">New</option>
                   <option value="Contacted">Contacted</option>
                   <option value="Qualified">Qualified</option>
                   <option value="Lost">Lost</option>
                 </select>
-                <select value={newSource} onChange={(e) => setNewSource(e.target.value as any)} className="rounded-2xl border border-slate-200 bg-slate-50 p-3">
+                <select value={newSource} onChange={(e) => setNewSource(e.target.value as any)} className="rounded-2xl border border-slate-200 bg-slate-50 text-slate-900 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 p-3">
                   <option value="Website">Website</option>
                   <option value="Instagram">Instagram</option>
                   <option value="Referral">Referral</option>
@@ -221,23 +221,23 @@ function Dashboard() {
             </form>
           </div>
 
-          <div className="rounded-3xl bg-white p-5 shadow-sm shadow-slate-200">
+          <div className="rounded-3xl bg-white p-5 shadow-sm shadow-slate-200 dark:bg-slate-900 dark:shadow-slate-950">
             {loading ? (
               <Spinner />
             ) : error ? (
-              <p className="text-rose-600">{error}</p>
+              <p className="text-rose-600 dark:text-rose-300">{error}</p>
             ) : leads.length === 0 ? (
-              <p className="text-slate-600">No leads match the selected filters.</p>
+              <p className="text-slate-600 dark:text-slate-400">No leads match the selected filters.</p>
             ) : (
               <div className="space-y-3">
                 {leads.map((lead) => (
-                  <div key={lead._id} className="rounded-3xl border border-slate-200 p-4 hover:border-sky-500">
+                  <div key={lead._id} className="rounded-3xl border border-slate-200 bg-white p-4 hover:border-sky-500 dark:border-slate-700 dark:bg-slate-900">
                     <div className="flex items-start justify-between gap-4">
                       <div>
-                        <h2 className="font-semibold text-slate-900">{lead.name}</h2>
-                        <p className="text-sm text-slate-600">{lead.email}</p>
-                        <p className="mt-2 text-xs text-slate-500">{new Date(lead.createdAt).toLocaleDateString()}</p>
-                        <p className="text-xs text-slate-500">{lead.source}</p>
+                        <h2 className="font-semibold text-slate-900 dark:text-slate-100">{lead.name}</h2>
+                        <p className="text-sm text-slate-600 dark:text-slate-300">{lead.email}</p>
+                        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">{new Date(lead.createdAt).toLocaleDateString()}</p>
+                        <p className="text-xs text-slate-500 dark:text-slate-400">{lead.source}</p>
                       </div>
                       <div className="flex flex-col gap-2 text-right">
                         <button
@@ -252,7 +252,7 @@ function Dashboard() {
                             type="button"
                             onClick={() => handleDeleteLead(lead._id)}
                             disabled={deletingId === lead._id}
-                            className="rounded-2xl bg-rose-100 px-4 py-2 text-rose-700 hover:bg-rose-200 disabled:cursor-not-allowed disabled:opacity-50"
+                            className="rounded-2xl bg-rose-100 px-4 py-2 text-rose-700 hover:bg-rose-200 dark:bg-rose-950 dark:text-rose-200 dark:hover:bg-rose-800 disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             {deletingId === lead._id ? 'Deleting...' : 'Delete'}
                           </button>
@@ -260,7 +260,7 @@ function Dashboard() {
                       </div>
                     </div>
                     <div className="mt-4 flex flex-wrap gap-2 text-xs">
-                      <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700">{lead.status}</span>
+                      <span className="rounded-full bg-slate-100 px-3 py-1 text-slate-700 dark:bg-slate-800 dark:text-slate-100">{lead.status}</span>
                     </div>
                   </div>
                 ))}

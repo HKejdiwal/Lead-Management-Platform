@@ -8,8 +8,17 @@
   background: #f8fafc;
 }
 
+html.dark {
+  color-scheme: dark;
+}
+
 body {
   @apply bg-slate-50 text-slate-900;
+}
+
+html.dark body {
+  @apply bg-slate-950 text-slate-100;
+  background: #0f172a;
 }
 
 button, input, select, textarea {
